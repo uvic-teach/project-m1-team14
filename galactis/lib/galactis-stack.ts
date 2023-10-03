@@ -27,18 +27,30 @@ export class GalactisStack extends cdk.Stack {
       runtime: Runtime.PYTHON_3_11,
       code: Code.fromAsset("resources/register"),
       handler: "register.handler",
+      environment: {
+        USER_TABLE: user_db.tableName,
+        TOKEN_TABLE: token_db.tableName,
+      },
     });
 
     const login_handler = new Function(this, "LoginHandler", {
       runtime: Runtime.PYTHON_3_11,
       code: Code.fromAsset("resources/login"),
       handler: "login.handler",
+      environment: {
+        USER_TABLE: user_db.tableName,
+        TOKEN_TABLE: token_db.tableName,
+      },
     });
 
     const validate_handler = new Function(this, "ValidateHandler", {
       runtime: Runtime.PYTHON_3_11,
       code: Code.fromAsset("resources/validate"),
       handler: "validate.handler",
+      environment: {
+        USER_TABLE: user_db.tableName,
+        TOKEN_TABLE: token_db.tableName,
+      },
     });
 
     user_db.grantReadData(login_handler);
