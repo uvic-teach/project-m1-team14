@@ -25,7 +25,7 @@ export class GalactisStack extends cdk.Stack {
 
     const register_handler = new Function(this, "RegisterHandler", {
       runtime: Runtime.PYTHON_3_11,
-      code: Code.fromAsset("resources/register"),
+      code: Code.fromAsset("resources", { exclude: ["login.py, validate.py"] }),
       handler: "register.handler",
       environment: {
         USER_TABLE: user_db.tableName,
@@ -35,7 +35,9 @@ export class GalactisStack extends cdk.Stack {
 
     const login_handler = new Function(this, "LoginHandler", {
       runtime: Runtime.PYTHON_3_11,
-      code: Code.fromAsset("resources/login"),
+      code: Code.fromAsset("resources", {
+        exclude: ["register.py, validate.py"],
+      }),
       handler: "login.handler",
       environment: {
         USER_TABLE: user_db.tableName,
@@ -45,7 +47,7 @@ export class GalactisStack extends cdk.Stack {
 
     const validate_handler = new Function(this, "ValidateHandler", {
       runtime: Runtime.PYTHON_3_11,
-      code: Code.fromAsset("resources/validate"),
+      code: Code.fromAsset("resources", { exclude: ["login.py, register.py"] }),
       handler: "validate.handler",
       environment: {
         USER_TABLE: user_db.tableName,
