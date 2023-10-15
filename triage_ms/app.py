@@ -26,7 +26,7 @@ def triageSymptoms():
     """Processes the form answers in JSON format and returns traige result
         ---
         post:
-          description: sends the form answers to the flask server to determine triage result
+          description: sends the form answers in json format to the flask server to determine triage result
 
         responses:
           200:
