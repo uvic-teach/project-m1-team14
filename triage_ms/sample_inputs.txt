@@ -1,0 +1,56 @@
+#--------------------------------------#
+Example data for "SEND TO ER"
+#--------------------------------------#
+
+{
+    "pain_level":9,
+    "head_trauma":false,
+    "allergies":true,
+    "runny_nose":true,
+    "sore_throat":true,
+    "shortness_of_breath":true,
+    "inflammation":"mild",
+    "fever":true,
+    "cough":true,
+    "chest_pain":true,
+    "breathing_difficulty":true
+}
+
+#--------------------------------------#
+Example data for "FURTHER TRIAGE"
+#--------------------------------------#
+
+{
+    "pain_level":0,
+    "head_trauma":true,
+    "allergies":true,
+    "runny_nose":true,
+    "sore_throat":true,
+    "shortness_of_breath":true,
+    "inflammation":"mild",
+    "fever":true,
+    "cough":true,
+    "chest_pain":true,
+    "breathing_difficulty":true
+}
+
+#--------------------------------------#
+Example data for "OTC MEDICENE"
+#--------------------------------------#
+
+{
+    "pain_level":0,
+    "head_trauma":false,
+    "allergies":true,
+    "runny_nose":true,
+    "sore_throat":false,
+    "shortness_of_breath":false,
+    "inflammation":"mild",
+    "fever":false,
+    "cough":false,
+    "chest_pain":false,
+    "breathing_difficulty":false
+}
+
+
+
