@@ -1,8 +1,8 @@
-# Omaga Star
+# Omega Star
 
 To run: `docker compose up`
 
-Exposes port 5000 for requests.
+Exposes port 5000 for requests. Make sure to include th API_KEY environment variable.
 
 ## API
 
