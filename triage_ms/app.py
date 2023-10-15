@@ -1,3 +1,14 @@
+openapi: 3.0.0
+servers:
+  # Added by Swagger API
+  - description: SwaggerHub Triage API
+    url: https://virtserver.swaggerhub.com/palodaman/traigeMS/1.0.0
+info:
+  version: "1.0.0"
+  title: TraigeMS
+  description: The API for TriageMS
+
+
 import os,json
 
 from flask import (Flask, redirect, render_template, request,
@@ -10,9 +21,18 @@ app = Flask(__name__)
 def index():
    return render_template('index.html')
 
+
 @app.route('/triage', methods=["POST"])
 def triageSymptoms():
-   
+    """Processes the form answers in JSON format and returns traige result
+        ---
+        post:
+          description: sends the form answers to the flask server to determine triage result
+
+        responses:
+          200:
+            description: return triage  in the form of a 3 key dictionary
+    """
    symptomInput = request.json # JSON Body
    responseData = {"result":"Futher Triage Needed",
                    "cause":"na",
@@ -72,8 +92,6 @@ def triageSymptoms():
             
 
    return responseData
-
-
 
 
 if __name__ == '__main__':
