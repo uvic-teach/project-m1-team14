@@ -36,6 +36,4 @@ USER appuser
 
 EXPOSE 5000
 
-#RUN rq worker --with-scheduler -u redis://cache
-
 CMD ./start.sh

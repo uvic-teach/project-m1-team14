@@ -1,18 +1,9 @@
 from flask import Flask, request
-from flask_mail import Mail, Message
 from os import environ
 
 from omegastar import handle_register
 
 app = Flask(__name__)
-
-app.config['MAIL_SERVER'] = 'email.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'username@email.com'
-app.config['MAIL_PASSWORD'] = 'password'
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-mail = Mail(app)
 
 @app.post("/register")
 def register():
