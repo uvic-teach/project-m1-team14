@@ -1,7 +1,7 @@
 name: AWS CDK deployment
 on: push
 jobs:
-  build_and_deploy:
+  build_and_deploy_galactis:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -25,3 +25,34 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: npx cdk deploy GalactisStack --require-approval never
         working-directory: galactis
+
+  build_and_deploy_frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: raccoon/raccoon
+      - name: Build frontend
+        run: npm run build
+        working-directory: raccoon/raccoon
+      - name: Install cdk dependencies
+        run: npm install
+        working-directory: raccoon/cdk
+      - name: Synth cdk stack
+        run: npx cdk synth
+        working-directory: raccoon/cdk
+      - name: Configure AWS creds
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: "us-west-2"
+      - name: Deploy stack
+        if: github.ref == 'refs/heads/main'
+        run: npx cdk deploy --all --require-approval never
+        working-directory: raccoon/cdk
