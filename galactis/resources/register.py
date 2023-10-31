@@ -1,11 +1,9 @@
 import os
 import hashlib
 import json
-import time
-import random
 import boto3
 from botocore.exceptions import ClientError
-from galactis_common import is_valid_username, is_valid_sha256_hash, success, failure, create_token
+from galactis_common import is_valid_username, is_valid_password, success, failure, create_token
 
 USER_TABLE = os.environ["USER_TABLE"] 
 TOKEN_TABLE = os.environ["TOKEN_TABLE"]
@@ -27,11 +25,13 @@ def handler(event, context):
                 
                 if not is_valid_username(username):
                     return failure("invalid username")
-                if not is_valid_sha256_hash(password):
+                if not is_valid_password(password):
                     return failure("invalid password")
 
                 print(f"username and password were valid")
                 m = hashlib.sha256(password.encode())
+                first_pass = m.digest()
+                m = hashlib.sha256(first_pass)
                 hashed = m.hexdigest()
                 
                 try:

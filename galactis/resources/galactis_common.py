@@ -10,6 +10,12 @@ HEADERS = {
 def is_valid_username(username: str):
     return re.search(r"^\w{3,20}$", username) is not None
 
+
+def is_valid_password(password: str): 
+    # minimum 8 characters, at least one number, one special character, and one letter
+    # stolen from https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
+    return re.search(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$")
+
 def is_valid_sha256_hash(hash: str) -> bool:
    return re.search(r"^[a-fA-F0-9]{64}$", hash) is not None 
 
