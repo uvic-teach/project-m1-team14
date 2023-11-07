@@ -1,5 +1,5 @@
 import * as cdk from "aws-cdk-lib";
-import { LambdaIntegration, RestApi } from "aws-cdk-lib/aws-apigateway";
+import { Cors, LambdaIntegration, RestApi } from "aws-cdk-lib/aws-apigateway";
 import { AttributeType, Table } from "aws-cdk-lib/aws-dynamodb";
 import { Function, Code, Runtime } from "aws-cdk-lib/aws-lambda";
 import { Construct } from "constructs";
@@ -67,6 +67,9 @@ export class GalactisStack extends cdk.Stack {
       deployOptions: {
         throttlingBurstLimit: 10,
         throttlingRateLimit: 10,
+      },
+      defaultCorsPreflightOptions: {
+        allowOrigins: Cors.ALL_ORIGINS,
       },
     });
 

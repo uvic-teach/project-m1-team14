@@ -51,11 +51,11 @@ def handler(event, context):
                     if e.response['Error']['Code'] == 'ConditionalCheckFailedException':
                         return failure("account already exists")
 
-                token = create_token(TOKEN_TABLE, dynamo, username)
-                print("no exception thrown by put_item, returning success")
+                token, expiration = create_token(TOKEN_TABLE, dynamo, username)
+                print(f"no exception thrown by put_item, returning token {token}")
                 # if no exception was thrown by put_item then
                 # it succeeded
-                return success(str(token))
+                return success(str(token), expiration)
     except Exception as e:
         print(e)
         

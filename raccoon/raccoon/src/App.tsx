@@ -1,25 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Header from "./components/Header";
+import { Typography } from "@mui/material";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import { CookiesProvider } from "react-cookie";
+
+export type PageSelection =
+  | "login"
+  | "register"
+  | "landing"
+  | "triage"
+  | "confirmation"
+  | "er-booking"
+  | "email-notification"
+  | "home";
 
 function App() {
+  const [page, setPage] = useState<PageSelection>("home");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CookiesProvider defaultSetOptions={{ path: "/" }}>
+      <div className="App">
+        <Header setPage={setPage} />
+        {page === "home" && <Typography>Welcome home</Typography>}
+        {page === "login" && <Login />}
+        {page === "register" && <Register />}
+      </div>
+    </CookiesProvider>
   );
 }
 

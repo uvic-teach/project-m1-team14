@@ -43,11 +43,11 @@ def handler(event, context):
                         if hashed == existing_password:
                             print(f"hashed password is equal to existing password")
                             # passwords match, create a new token
-                            token = create_token(TOKEN_TABLE, dynamo, username)
+                            token, expiration = create_token(TOKEN_TABLE, dynamo, username)
                             print("no exception thrown by put_item, returning success")
                             # if no exception was thrown by put_item then
                             # it succeeded
-                            return success(str(token))
+                            return success(str(token), expiration)
     except Exception as e:
         print(e)
         
