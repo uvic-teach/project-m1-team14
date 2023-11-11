@@ -1,11 +1,13 @@
 import { Box, Button, Input, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import Cookies from "universal-cookie";
 
-interface LoginProps {}
+interface LoginProps { }
 
 const Login = (props: LoginProps) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const cookies = new Cookies();
 
   async function sha256(message: string) {
     // encode as UTF-8
@@ -45,7 +47,12 @@ const Login = (props: LoginProps) => {
     );
 
     if (response.status === 200) {
-      console.log(response.json());
+      const res = await response.json();
+      cookies.set("login-token", res.token, {
+        path: "/",
+        expires: new Date(res.expiration * 1000),
+        sameSite: "lax",
+      });
     } else if (response.status === 400) {
       console.log(response.json());
     } else {

@@ -1,14 +1,14 @@
 import { Box, Button, Input, TextField, Typography } from "@mui/material";
 import { strict } from "assert";
 import { useState } from "react";
-import { useCookies } from "react-cookie";
+import Cookies from "universal-cookie";
 
-interface RegisterProps {}
+interface RegisterProps { }
 
 const Register = (props: RegisterProps) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [cookies, setCookie, removeCookie] = useCookies(["login-token"]);
+  const cookies = new Cookies();
 
   const attemptRegistration = async (user: string, pass: string) => {
     // TODO: implement API call and set cookie
@@ -30,13 +30,11 @@ const Register = (props: RegisterProps) => {
 
     if (response.status === 200) {
       const res = await response.json();
-      console.log(res);
-      setCookie("login-token", res.token, {
+      cookies.set("login-token", res.token, {
         path: "/",
-        expires: new Date(res.expiration),
+        expires: new Date(res.expiration * 1000),
         sameSite: "lax",
       });
-      console.log(cookies["login-token"]);
     } else if (response.status === 400) {
     } else {
       // error
