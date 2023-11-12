@@ -30,8 +30,8 @@ def handler(event, context):
 
                 print(f"username and password were valid")
                 m = hashlib.sha256(password.encode())
-                first_pass = m.digest()
-                m = hashlib.sha256(first_pass)
+                first_pass = m.hexdigest()
+                m = hashlib.sha256(first_pass.encode())
                 hashed = m.hexdigest()
                 
                 try:
