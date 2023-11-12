@@ -1,8 +1,8 @@
-import { Box, Button, Input, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import Cookies from "universal-cookie";
 
-interface LoginProps { }
+interface LoginProps {}
 
 const Login = (props: LoginProps) => {
   const [username, setUsername] = useState<string>("");

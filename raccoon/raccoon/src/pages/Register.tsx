@@ -1,9 +1,8 @@
-import { Box, Button, Input, TextField, Typography } from "@mui/material";
-import { strict } from "assert";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import Cookies from "universal-cookie";
 
-interface RegisterProps { }
+interface RegisterProps {}
 
 const Register = (props: RegisterProps) => {
   const [username, setUsername] = useState<string>("");
