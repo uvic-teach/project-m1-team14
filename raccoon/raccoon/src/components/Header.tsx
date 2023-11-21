@@ -22,6 +22,12 @@ const Header = (props: HeaderProps) => {
           <Button color="inherit" onClick={() => props.setPage("triage")}>
             Triage
           </Button>
+          <Button
+            color="inherit"
+            onClick={() => props.setPage("email-notification")}
+          >
+            Notify
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

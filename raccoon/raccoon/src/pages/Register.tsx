@@ -7,10 +7,11 @@ interface RegisterProps {}
 const Register = (props: RegisterProps) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [view, setView] = useState<"enter" | "success" | "failure">("enter");
+  const [errorMsg, setErrorMsg] = useState<string>("");
   const cookies = new Cookies();
 
   const attemptRegistration = async (user: string, pass: string) => {
-    // TODO: implement API call and set cookie
     const body = {
       username: user,
       password: pass,
@@ -34,28 +35,58 @@ const Register = (props: RegisterProps) => {
         expires: new Date(res.expiration * 1000),
         sameSite: "lax",
       });
+      cookies.set("username", user, {
+        path: "/",
+        expires: new Date(res.expiration * 1000),
+        sameSite: "lax",
+      });
+      setView("success");
     } else if (response.status === 400) {
+      console.log(response);
+      const data = await response.json();
+      setErrorMsg(data.reason);
+      setView("failure");
     } else {
-      // error
+      setView("failure");
     }
   };
 
   return (
-    <Box>
-      <Typography>Create an Account</Typography>
-      <TextField
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-      />
-      <TextField
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        type="password"
-      />
-      <Button onClick={() => attemptRegistration(username, password)}>
-        SUBMIT
-      </Button>
-    </Box>
+    <>
+      {view === "enter" && (
+        <Box>
+          <Typography>Create an Account</Typography>
+          <TextField
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+          />
+          <TextField
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            type="password"
+          />
+          <Button onClick={() => attemptRegistration(username, password)}>
+            SUBMIT
+          </Button>
+        </Box>
+      )}
+      {view === "failure" && (
+        <Box>
+          <Typography>
+            Could not create an account. Reason: {errorMsg}
+          </Typography>
+          <Button onClick={() => setView("enter")}>Try again</Button>
+        </Box>
+      )}
+      {view === "success" && (
+        <Box>
+          <Typography>
+            You are now signed in! Try going to the "Triage" page and submitting
+            the form!
+          </Typography>
+        </Box>
+      )}
+    </>
   );
 };
 

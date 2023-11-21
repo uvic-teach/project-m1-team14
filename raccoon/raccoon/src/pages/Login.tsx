@@ -7,6 +7,7 @@ interface LoginProps {}
 const Login = (props: LoginProps) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [view, setView] = useState<"enter" | "success" | "failure">("enter");
   const cookies = new Cookies();
 
   async function sha256(message: string) {
@@ -27,7 +28,6 @@ const Login = (props: LoginProps) => {
   }
 
   const attemptLogin = async (user: string, pass: string) => {
-    // TODO: implement API call and set cookie
     const hash = await sha256(pass);
     const body = {
       username: user,
@@ -57,28 +57,51 @@ const Login = (props: LoginProps) => {
         expires: new Date(res.expiration * 1000),
         sameSite: "lax",
       });
+      setView("success");
     } else if (response.status === 400) {
-      console.log(response.json());
+      console.log(response);
+      setView("failure");
     } else {
       // error
       console.log(response);
+      setView("failure");
     }
   };
 
   return (
-    <Box>
-      <Typography>Log In</Typography>
-      <TextField
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-      />
-      <TextField
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        type="password"
-      />
-      <Button onClick={() => attemptLogin(username, password)}>SUBMIT</Button>
-    </Box>
+    <>
+      {view === "enter" && (
+        <Box>
+          <Typography>Log In</Typography>
+          <TextField
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+          />
+          <TextField
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            type="password"
+          />
+          <Button onClick={() => attemptLogin(username, password)}>
+            SUBMIT
+          </Button>
+        </Box>
+      )}
+      {view === "failure" && (
+        <Box>
+          <Typography>Could not log you in.</Typography>
+          <Button onClick={() => setView("enter")}>Try again</Button>
+        </Box>
+      )}
+      {view === "success" && (
+        <Box>
+          <Typography>
+            You are now signed in! Try going to the "Triage" page and submitting
+            the form!
+          </Typography>
+        </Box>
+      )}
+    </>
   );
 };
 

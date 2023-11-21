@@ -5,6 +5,7 @@ import { Typography } from "@mui/material";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Triage from "./pages/Triage";
+import Notify from "./pages/Notify";
 
 export type PageSelection =
   | "login"
@@ -26,6 +27,7 @@ function App() {
       {page === "login" && <Login />}
       {page === "register" && <Register />}
       {page === "triage" && <Triage />}
+      {page === "email-notification" && <Notify />}
     </div>
   );
 }
