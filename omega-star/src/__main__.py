@@ -22,7 +22,7 @@ def build_response(request):
     if handle_register(username, email, token):
         response = make_response("Success", 200)
     else:
-        response = make_response("Failure", 403)
+        response = make_response("Failure", 401)
 
     response.headers['Access-Control-Allow-Origin'] = '*'
     return response
