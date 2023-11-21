@@ -18,6 +18,7 @@ export class SiteDeployStack extends cdk.Stack {
       sources: [Source.asset("../raccoon/build")],
       destinationBucket: bucket,
       destinationKeyPrefix: "seng350/",
+      distributionPaths: ["/seng350/*"],
     });
   }
 }
