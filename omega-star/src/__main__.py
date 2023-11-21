@@ -1,27 +1,24 @@
-from flask import Flask, request
-from os import environ
+from flask import Flask, request, make_response
 
 from omegastar import handle_register
 
 app = Flask(__name__)
 
+
 @app.post("/register")
 def register():
-    api_key = environ.get("API_KEY")
-    request_key = request.headers.get("x-api-key", "")
-
-    if api_key != request_key:
-        return "No", 403
-
     body = request.json
     username = body.get('username')
     token = body.get('token')
     email = body.get('email')
 
     if handle_register(username, email, token):
-        return "Success", 200
+        response = make_response("Success", 200)
     else:
-        return "Failure", 418
+        response = make_response("Failure", 403)
+
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 
 if __name__ == '__main__':
