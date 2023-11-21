@@ -19,6 +19,9 @@ const Header = (props: HeaderProps) => {
           <Button color="inherit" onClick={() => props.setPage("register")}>
             Register
           </Button>
+          <Button color="inherit" onClick={() => props.setPage("triage")}>
+            Triage
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

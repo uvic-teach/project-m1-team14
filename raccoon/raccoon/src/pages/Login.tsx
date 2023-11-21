@@ -28,7 +28,7 @@ const Login = (props: LoginProps) => {
 
   const attemptLogin = async (user: string, pass: string) => {
     // TODO: implement API call and set cookie
-    const hash = await sha256(password);
+    const hash = await sha256(pass);
     const body = {
       username: user,
       password: hash,
@@ -37,7 +37,6 @@ const Login = (props: LoginProps) => {
       "https://fr1gi6xdtc.execute-api.us-west-2.amazonaws.com/prod/login",
       {
         method: "POST",
-        mode: "no-cors",
         cache: "no-cache",
         headers: {
           "Content-Type": "application/json",
@@ -49,6 +48,11 @@ const Login = (props: LoginProps) => {
     if (response.status === 200) {
       const res = await response.json();
       cookies.set("login-token", res.token, {
+        path: "/",
+        expires: new Date(res.expiration * 1000),
+        sameSite: "lax",
+      });
+      cookies.set("username", user, {
         path: "/",
         expires: new Date(res.expiration * 1000),
         sameSite: "lax",
