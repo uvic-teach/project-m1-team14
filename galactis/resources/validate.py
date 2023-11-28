@@ -2,7 +2,7 @@ import os
 import json
 import time
 import boto3
-from galactis_common import is_valid_username, success, failure
+from galactis_common import is_valid_username, is_valid_email, success, failure
 
 USER_TABLE = os.environ["USER_TABLE"] 
 TOKEN_TABLE = os.environ["TOKEN_TABLE"]
@@ -17,7 +17,7 @@ def handler(event, context):
             print("loading params")
             username = event["queryStringParameters"]["username"]
             token = event["queryStringParameters"]["token"]
-            if not is_valid_username(username):
+            if not is_valid_username(username) and not is_valid_email(username):
                 return failure()
 
             print(f"username is valid")
