@@ -3,7 +3,7 @@ import hashlib
 import json
 import boto3
 from botocore.exceptions import ClientError
-from galactis_common import is_valid_username, is_valid_password, success, failure, create_token
+from galactis_common import is_valid_email, is_valid_password, success, failure, create_token
 
 USER_TABLE = os.environ["USER_TABLE"] 
 TOKEN_TABLE = os.environ["TOKEN_TABLE"]
@@ -23,7 +23,7 @@ def handler(event, context):
                 username = body["username"]
                 password = body["password"]
                 
-                if not is_valid_username(username):
+                if not is_valid_email(username):
                     return failure("invalid username")
                 if not is_valid_password(password):
                     return failure("invalid password")
@@ -50,6 +50,9 @@ def handler(event, context):
                 except ClientError as e:
                     if e.response['Error']['Code'] == 'ConditionalCheckFailedException':
                         return failure("account already exists")
+                    else:
+                        print(f"unexpected problem when registering account {e}")
+                        return failure(f"unexpected problem when registering account")
 
                 token, expiration = create_token(TOKEN_TABLE, dynamo, username)
                 print(f"no exception thrown by put_item, returning token {token}")

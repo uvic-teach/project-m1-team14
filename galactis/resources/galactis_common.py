@@ -12,6 +12,10 @@ def is_valid_username(username: str):
     return re.search(r"^\w{3,20}$", username) is not None
 
 
+def is_valid_email(username: str):
+    return re.search(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b', username) is not None
+
+
 def is_valid_password(password: str): 
     # minimum 8 characters, at least one number, one special character, and one letter
     # stolen from https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a

@@ -4,7 +4,7 @@ import json
 import time
 import random
 import boto3
-from galactis_common import is_valid_username, is_valid_sha256_hash, success, failure, create_token
+from galactis_common import is_valid_username, is_valid_email, is_valid_sha256_hash, success, failure, create_token
 
 USER_TABLE = os.environ["USER_TABLE"] 
 TOKEN_TABLE = os.environ["TOKEN_TABLE"]
@@ -23,7 +23,8 @@ def handler(event, context):
                 print(f"username and password in body")
                 username = body["username"]
                 password = body["password"]
-                if is_valid_username(username) and is_valid_sha256_hash(password):
+                # must support legacy usernames and new email format
+                if (is_valid_username(username) or is_valid_email(username)) and is_valid_sha256_hash(password):
                     print(f"username and password were valid")
                     data = dynamo.get_item(
                         TableName=USER_TABLE,
