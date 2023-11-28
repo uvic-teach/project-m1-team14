@@ -28,6 +28,9 @@ const Notify = (props: NotifyProps) => {
     });
 
     if (response.ok) {
+      setView("success");
+    } else {
+      setView("failure");
     }
   };
 

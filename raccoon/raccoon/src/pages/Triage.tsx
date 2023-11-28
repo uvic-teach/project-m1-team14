@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import Cookies from "universal-cookie";
 import FormView, { FormFields } from "../components/FormView";
@@ -14,6 +14,7 @@ type RequestFields = FormFields & {
 const Triage = (props: TriageProps) => {
   const cookies = new Cookies();
   const [results, setResults] = useState<Results | undefined>();
+  const [error, setError] = useState<string | undefined>();
 
   const submitForm = async (form: FormFields) => {
     const username = cookies.get("username");
@@ -40,11 +41,18 @@ const Triage = (props: TriageProps) => {
       const data = await response.json();
       setResults(data as Results);
     } else {
+      setError(await response.text());
     }
   };
 
   return (
     <Box paddingY={1} paddingX={10}>
+      {error && (
+        <>
+          <Typography>There was an issue with the form: {error}</Typography>
+          <Box paddingY={1} />
+        </>
+      )}
       {results === undefined ? (
         <FormView submitForm={submitForm} />
       ) : (

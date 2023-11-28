@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-type InflammationType = "none" | "moderate" | "severe";
+type InflammationType = "none" | "mild" | "moderate" | "severe";
 
 export interface FormFields {
   pain_level: number;
@@ -155,6 +155,7 @@ const FormView = (props: FormViewProps) => {
             defaultValue={"none"}
           >
             <MenuItem value="none">None</MenuItem>
+            <MenuItem value="mild">Mild</MenuItem>
             <MenuItem value="moderate">Moderate</MenuItem>
             <MenuItem value="severe">Severe</MenuItem>
           </Select>
