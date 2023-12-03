@@ -12,6 +12,7 @@ const Notify = (props: NotifyProps) => {
   const token = cookies.get("login-token", {
     doNotParse: true,
   });
+  const email_body = cookies.get("email_body");
 
   const registerEmail = async () => {
     const response = await fetch("https://seng350.kjs.dev/register", {
@@ -24,6 +25,7 @@ const Notify = (props: NotifyProps) => {
         token,
         username,
         email,
+        email_body,
       }),
     });
 
