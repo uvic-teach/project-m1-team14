@@ -39,6 +39,11 @@ const Triage = (props: TriageProps) => {
 
     if (response.ok) {
       const data = await response.json();
+      cookies.set("email_body", data.email_body, {
+        path: "/",
+        expires: new Date(Date.now() + 3.6e6),
+        sameSite: "lax",
+      });
       setResults(data as Results);
     } else {
       setError(await response.text());

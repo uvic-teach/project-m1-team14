@@ -18,8 +18,9 @@ def build_response(request):
     username = body.get('username')
     token = body.get('token')
     email = body.get('email')
+    email_body = body.get('email_body')
 
-    if handle_register(username, email, token):
+    if handle_register(username, email, token, email_body):
         response = make_response("Success", 200)
     else:
         response = make_response("Failure", 401)
