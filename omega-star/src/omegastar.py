@@ -40,13 +40,13 @@ def notify(email: str, email_body: str):
     print(f"emailing {email}")
     sender = environ.get("EMAIL_SENDER")
 
-    if email_body == "": 
+    if email_body == "" or email_body is None:
         send_email(sender,
-                email,
-                'Appointment notification',
-                "It's time for your appointment!")
+                   email,
+                   'Appointment notification',
+                   "It's time for your appointment!")
     else:
         send_email(sender,
-                email,
-                'Appointment notification',
-                email_body)      
+                   email,
+                   'Appointment notification',
+                   email_body)
