@@ -26,7 +26,10 @@ def validateRequest (username : str, token: str):
    return response.status_code == 200
 
 def triageResults (symptomInput :dict):
-    
+   template_emailA = "We are unable to determine an accurate diagnosis from the provided symptoms. We believe there could be a "
+   template_emailC = "We believe that you may have a "
+   template_emailB = " and reccomend that you visit your local ER for further diagonosis."
+
    responseData = {"result":"Futher Triage Needed",
                    "cause":"na",
                    "medicine":"na"
@@ -35,26 +38,31 @@ def triageResults (symptomInput :dict):
   # Pain Level 
    if symptomInput["pain_level"] >= 7:
         responseData["result"] = "ER"
+        responseData["email_body"] = "Due to a high pain level, we reccomend you visit your local ER for further treatment."
    else:
       
       # Head Trauma
       if symptomInput["head_trauma"]:
           responseData["result"] = "Futher Triage Needed"
+          responseData["email_body"] = "Due to possible head trauma, we reccomend you visit your local ER for further treatment as soon as possible."
 
       # inflammation
       elif symptomInput["inflammation"] in ["moderate", "severe"]:
           responseData["result"] = "Futher Triage Needed"
           responseData["cause"] = "Possible infection"
+          responseData["email_body"] = template_emailA + "possible infection" + template_emailB
 
       # Chest Pain
       elif symptomInput["chest_pain"]:
         responseData["result"] = "Futher Triage Needed"
         responseData["cause"] = "Chest Pain"
+        responseData["email_body"] = "We are unable to determine an accurate diagnosis, please visit your local ER for further treatment."
 
       # Breathing
       elif symptomInput["breathing_difficulty"]:
         responseData["cause"] = "Difficulty Breathing"
         responseData["result"] = "Futher Triage Needed"
+        responseData["email_body"] = "We are unable to determine an accurate diagnosis, please visit your local ER for further treatment."
 
       # Allergy Symptoms
       elif symptomInput["allergies"]:
@@ -66,6 +74,7 @@ def triageResults (symptomInput :dict):
           elif symptomInput["shortness_of_breath"]:
               responseData["cause"] = "Possible Allergy Reaction"
               responseData["result"] = "ER"
+              responseData["email_body"] = template_emailC + "possible alergy reaction" + template_emailB
       
       # Generic Cold Symptoms
       else:
@@ -82,6 +91,7 @@ def triageResults (symptomInput :dict):
                 else:
                    responseData["cause"] = "Possible Infection"
                    responseData["result"] = "Futher Triage Needed"
+                   responseData["email_body"] = template_emailA + "possible infection" + template_emailB
    
    return responseData,200
  
